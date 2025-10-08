@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ethereum Block — Dark Theme</title>
+<style>
+  :root{
+    --bg:#0b0f17;
+    --panel:#0f1724;
+    --muted:#98a0b3;
+    --accent:#6ee7b7; /* mint */
+    --accent2:#7c5cff; /* purple */
+    --glass: rgba(255,255,255,0.04);
+    --card-shadow: 0 6px 30px rgba(12,18,30,0.6);
+    --radius:14px;
+  }
+  html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  body{
+    background: radial-gradient(1200px 400px at 10% 10%, rgba(124,92,255,0.06), transparent 8%),
+                radial-gradient(900px 300px at 90% 90%, rgba(110,231,183,0.02), transparent 8%),
+                var(--bg);
+    color:#e6eef8;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width:1000px;
+    margin:40px auto;
+    padding:28px;
+  }
+
+  .header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:22px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .logo{
+    width:56px;height:56px;
+    border-radius:12px;
+    background: linear-gradient(135deg,var(--accent2), #2fd2b3);
+    box-shadow: 0 6px 20px rgba(124,92,255,0.14), inset 0 -6px 12px rgba(255,255,255,0.02);
+    display:flex;align-items:center;justify-content:center;font-weight:700;
+    font-size:18px;color:#07101a;
+  }
+  .brand .title{font-size:20px;font-weight:600;letter-spacing:0.2px;}
+  .brand .sub{font-size:13px;color:var(--muted);margin-top:2px;}
+
+  .controls{
+    display:flex;gap:12px;align-items:center;
+  }
+  .chip{
+    background:var(--glass);
+    border-radius:999px;
+    padding:8px 12px;color:var(--muted);font-size:13px;
+    border:1px solid rgba(255,255,255,0.03);
+  }
+
+  .layout{
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:22px;
+    align-items:start;
+  }
+
+  /* Main card */
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:var(--card-shadow);
+    border:1px solid rgba(255,255,255,0.03);
+  }
+
+  .nav-blocks{
+    display:flex;
+    gap:12px;
+    justify-content:space-between;
+    background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+    padding:18px;border-radius:12px;margin-bottom:16px;
+  }
+  .nav-item{color:var(--muted);font-size:13px;}
+  .nav-item .num{color:var(--accent);font-weight:700;font-size:18px;display:block;}
+
+  .hash-row{
+    display:flex;align-items:center;gap:12px;justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .hash-box{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+    padding:14px;border-radius:10px;flex:1;font-size:13px;color:#bfeee0;
+    border:1px solid rgba(124,92,255,0.06);
+    display:flex;align-items:center;gap:12px;
+  }
+  .hash-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .btn-copy{
+    background:transparent;border:1px solid rgba(255,255,255,0.04);
+    padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer;font-size:13px;
+  }
+
+  .meta-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px;
+  }
+  .meta{
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.006));
+    padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);
+    font-size:13px;color:var(--muted);
+  }
+  .meta .v{color:var(--accent);font-weight:700;font-size:15px;margin-top:6px;display:block;}
+
+  .divider{height:1px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);margin:18px 0;border-radius:2px}
+
+  /* right column */
+  .side{
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .panel{
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.02);
+  }
+  .panel h4{margin:0 0 8px 0;color:var(--muted);font-size:13px}
+  .panel p{margin:0;color:#dfeffd;font-size:14px}
+
+  /* diagram */
+  .diagram {
+    margin-top:10px;
+    padding:14px;
+    border-radius:12px;
+    background: linear-gradient(180deg, rgba(124,92,255,0.02), rgba(110,231,183,0.01));
+    border:1px solid rgba(255,255,255,0.02);
+  }
+  .nodes{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px;
+  }
+  .node{
+    width:88px;height:88px;border-radius:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    display:flex;align-items:center;justify-content:center;flex-direction:column;
+    box-shadow: 0 6px 26px rgba(0,0,0,0.45);
+    position:relative; border:1px solid rgba(255,255,255,0.03);
+  }
+  .node .ttl{font-size:12px;color:var(--muted)}
+  .node .id{font-family:ui-monospace,monospace;font-size:12px;color:#bfeee0;margin-top:6px}
+  .node .pulse{
+    position:absolute;inset:6px;border-radius:10px;opacity:0.8;
+    box-shadow: 0 0 18px rgba(124,92,255,0.12), 0 0 48px rgba(110,231,183,0.06);
+    animation: glow 2.8s infinite;
+    pointer-events:none;
+  }
+  @keyframes glow{
+    0%{transform:scale(0.9);opacity:0.6}
+    50%{transform:scale(1.06);opacity:0.95}
+    100%{transform:scale(0.9);opacity:0.6}
+  }
+  .arrow{
+    flex:1;height:2px;background:linear-gradient(90deg,var(--accent2),var(--accent));
+    margin:0 8px;border-radius:2px;position:relative;
+  }
+  .dot {
+    width:10px;height:10px;border-radius:50%;background:var(--accent2);
+    position:absolute;top:-4px;right:-6px;box-shadow:0 0 8px rgba(124,92,255,0.5);
+  }
+
+  /* small details */
+  .small{font-size:12px;color:var(--muted)}
+  .tag{display:inline-block;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
+
+  .pay-list{margin-top:12px}
+  .pay-list li{list-style:none;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.03);font-size:14px}
+  .pay-list li:last-child{border-bottom:0}
+  .amt{color:var(--accent2);font-weight:700}
+
+  /* responsive */
+  @media (max-width:980px){
+    .layout{grid-template-columns:1fr;}
+    .side{order:2}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="brand">
+        <div class="logo">ETH</div>
+        <div>
+          <div class="title">Ethereum Block Viewer</div>
+          <div class="sub">Dark mode · Block details & propagation</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="chip">Network: <strong style="color:var(--accent);margin-left:6px">Mainnet</strong></div>
+        <div class="chip">RPC: <strong style="color:var(--accent2);margin-left:6px">Infura</strong></div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <!-- left -->
+      <div class="card">
+        <div class="nav-blocks">
+          <div class="nav-item"><span class="small">PREVIOUS BLOCK</span><span class="num">23,531,384</span></div>
+          <div class="nav-item"><span class="small">THIS BLOCK</span><span class="num">23,531,385</span></div>
+          <div class="nav-item"><span class="small">NEXT BLOCK</span><span class="num">23,531,386</span></div>
+        </div>
+
+        <div class="hash-row">
+          <div class="hash-box" title="Block hash">
+            <div style="flex:1;">
+              <div class="small">HASH</div>
+              <div class="hash-text" id="blockHash">0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97</div>
+            </div>
+          </div>
+          <button class="btn-copy" id="copyHash">Copy</button>
+        </div>
+
+        <div class="meta-grid">
+          <div class="meta">
+            <div class="small">BLOCK HEIGHT</div>
+            <div class="v">23531469</div>
+          </div>
+          <div class="meta">
+            <div class="small">TIMESTAMP</div>
+            <div class="v" id="ts">2025-10-08 15:12:47 (UTC+8)</div>
+          </div>
+          <div class="meta">
+            <div class="small">TRANSACTIONS</div>
+            <div class="v">3 txns</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="small">Proposer / Verified by</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+          <div>
+            <div style="font-weight:700;color:#bfeee0">Validator #16</div>
+            <div class="small" style="margin-top:6px">Address: 0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97</div>
+          </div>
+          <div style="text-align:right">
+            <div class="small">Block Reward</div>
+            <div style="color:var(--accent);font-weight:700">0.00000 ETH</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h4 style="color:var(--muted);margin:0 0 12px 0">Transfers in this block</h4>
+        <ul class="pay-list">
+          <li><span class="small">From</span> <br><span class="hash-text">0xa2b07ed95f3cfded76f2e70c58af897c2dc94941</span><div class="small">→ To <span class="hash-text">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span></div><div class="small">Amount: <span class="amt">0.330238 ETH</span></div></li>
+          <li><span class="small">From</span> <br><span class="hash-text">0xa2b07ed95f3cfded76f2e70c58af897c2dc94941</span><div class="small">→ To <span class="hash-text">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span></div><div class="small">Amount: <span class="amt">0.14999 ETH</span></div></li>
+          <li><span class="small">From</span> <br><span class="hash-text">0xa2b07ed95f3cfded76f2e70c58af897c2dc94941</span><div class="small">→ To <span class="hash-text">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span></div><div class="small">Amount: <span class="amt">0.0601 ETH</span></div></li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div class="tag">Gas Limit: 44,999,957</div>
+          <div class="tag">Gas Used: 38,586,409 (85.75%)</div>
+          <div class="tag">Base fee: 0.00000000203 ETH</div>
+        </div>
+
+      </div>
+
+      <!-- right -->
+      <div class="side">
+        <div class="panel">
+          <h4>Block Summary</h4>
+          <p class="small">Status: <strong style="color:var(--accent)">Verified</strong></p>
+          <p class="small" style="margin-top:8px">Hash: <span style="font-family:monospace;color:#bfeee0">0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97</span></p>
+          <div class="diagram" id="diagram">
+            <h4 style="margin:0 0 10px 0;color:var(--muted);font-size:13px">Block propagation (schematic)</h4>
+            <div class="nodes" id="nodesRow">
+              <div class="node" title="Miner">
+                <div class="pulse"></div>
+                <div class="ttl">Miner</div>
+                <div class="id">Node A</div>
+              </div>
+              <div class="arrow" title="Propagating">
+                <div class="dot"></div>
+              </div>
+              <div class="node" title="Relay">
+                <div class="pulse" style="box-shadow:0 0 18px rgba(124,92,255,0.14),0 0 48px rgba(124,92,255,0.06);"></div>
+                <div class="ttl">Relay</div>
+                <div class="id">Node B</div>
+              </div>
+              <div class="arrow" title="Propagating">
+                <div class="dot"></div>
+              </div>
+              <div class="node" title="Validator">
+                <div class="pulse" style="box-shadow:0 0 18px rgba(110,231,183,0.14),0 0 48px rgba(110,231,183,0.06);"></div>
+                <div class="ttl">Validator</div>
+                <div class="id">Node C</div>
+              </div>
+            </div>
+            <div style="margin-top:10px;font-size:12px;color:var(--muted)">Simple animated schematic showing how the produced block propagates across the network.</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h4>Block Metrics</h4>
+          <p class="small">Block Reward: <strong>0.00000 ETH</strong></p>
+          <p class="small">Burn / Fee: <strong>0.00429433733 ETH</strong></p>
+          <p class="small">Priority tip: <strong>0.00000000 ETH</strong></p>
+        </div>
+
+        <div class="panel">
+          <h4>Quick Actions</h4>
+          <p style="margin:8px 0 10px 0"><button id="viewEtherscan" class="btn-copy" style="width:100%;font-weight:700">View on Etherscan</button></p>
+          <p style="margin:0;font-size:13px;color:var(--muted)">Copy block hash or transaction links to share.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // copy hash
+  document.getElementById('copyHash').addEventListener('click', function(){
+    const txt = document.getElementById('blockHash').innerText;
+    navigator.clipboard?.writeText(txt).then(()=> {
+      this.innerText = 'Copied';
+      setTimeout(()=> this.innerText='Copy',1200);
+    }).catch(()=> {
+      alert('Copy failed — please select and copy manually.');
+    });
+  });
+
+  // fake propagation animation (nodes pulse sequentially)
+  (function animNodes(){
+    const nodes = document.querySelectorAll('.node .pulse');
+    let i=0;
+    function step(){
+      nodes.forEach((n,idx)=> n.style.opacity = (idx===i?1:0.45));
+      i = (i+1) % nodes.length;
+    }
+    setInterval(step,900);
+    step();
+  })();
+
+  // view on etherscan
+  document.getElementById('viewEtherscan').addEventListener('click', function(){
+    const hash = document.getElementById('blockHash').innerText;
+    window.open('https://etherscan.io/block/' + encodeURIComponent(23531469), '_blank');
+  });
+</script>
+</body>
+</html>
