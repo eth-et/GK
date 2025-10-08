@@ -1,167 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ethereum Block Viewer — Fee-Free Remittance Order</title>
-<style>
-  body {
-    background-color: #0a0e14;
-    color: #d1d5db;
-    font-family: "Segoe UI", sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  .container {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #111827;
-    border-radius: 12px;
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
-  }
-  h1 {
-    color: #00ffff;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .subtext {
-    color: #9ca3af;
-    font-size: 0.9rem;
-    margin-bottom: 25px;
-  }
-  .block-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1f2937;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-  }
-  .block {
-    text-align: center;
-    flex: 1;
-  }
-  .block h2 {
-    color: #00ffff;
-    margin: 5px 0;
-  }
-  .block p {
-    color: #9ca3af;
-    font-size: 0.9rem;
-  }
-  .hash {
-    background-color: #111;
-    padding: 10px;
-    border-radius: 8px;
-    word-break: break-all;
-    font-size: 0.85rem;
-    color: #10b981;
-    margin-top: 10px;
-  }
-  .summary {
-    background-color: #1f2937;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  .summary h3 {
-    color: #00ffff;
-  }
-  .summary p {
-    color: #d1d5db;
-    font-size: 0.9rem;
-    margin: 4px 0;
-  }
-
-  /* 动画部分 */
-  @keyframes blink {
-    0%, 100% { color: #00ffff; text-shadow: 0 0 10px #00ffff; }
-    50% { color: #ffffff; text-shadow: 0 0 20px #00ffff; }
-  }
-  .highlight {
-    animation: blink 1.5s infinite;
-    font-weight: bold;
-  }
-  .schematic {
-    background-color: #111827;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 15px;
-    text-align: center;
-    color: #a1a1aa;
-  }
-  .nodes {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 10px;
-  }
-  .node {
-    padding: 10px 20px;
-    border: 1px solid #00ffff;
-    border-radius: 8px;
-    background-color: #0d1117;
-    color: #00ffff;
-  }
-  .footer {
-    text-align: center;
-    font-size: 0.8rem;
-    margin-top: 30px;
-    color: #6b7280;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Etherscan No-Fee Transfer Order</title>
+  <style>
+    body {
+      background-color: #0b0e11;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(90deg, #5c3aff, #00c6ff);
+      padding: 16px 24px;
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .container {
+      padding: 24px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .card {
+      background-color: #14181d;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .blink {
+      animation: blink 1s infinite alternate;
+    }
+    @keyframes blink {
+      from { box-shadow: 0 0 10px #4effc8; }
+      to { box-shadow: 0 0 25px #00ffff; }
+    }
+    h2 {
+      color: #4effc8;
+      border-bottom: 1px solid #333;
+      padding-bottom: 8px;
+    }
+    h3 {
+      color: #89c4ff;
+    }
+    .mono {
+      font-family: monospace;
+      background-color: #0f1318;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid #1e252c;
+    }
+    .footer {
+      text-align: center;
+      color: #aaa;
+      margin-top: 40px;
+      font-size: 0.85rem;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Ethereum Block Viewer</h1>
-  <p class="subtext">Etherscan Fee-Free Remittance Order</p>
+  <header>Ethereum Block Viewer — Etherscan No-Fee Remittance Order</header>
 
-  <div class="block-section">
-    <div class="block">
-      <p>Previous Block</p>
-      <h2>23,531,384</h2>
+  <div class="container">
+
+    <!-- 区块显示卡片 -->
+    <div class="card blink">
+      <h2>Block #23531469 — Status: Verified</h2>
+      <p><strong>Expected Completion:</strong> October 9, 2025, 3:33 PM (UTC+8)</p>
+      <p><strong>Block Hash:</strong> <span class="mono">0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97</span></p>
+      <p><strong>Network:</strong> Ethereum Mainnet</p>
     </div>
-    <div class="block">
-      <p>This Block</p>
-      <h2 class="highlight">23,531,385</h2>
+
+    <!-- 汇款概要说明 -->
+    <div class="card">
+      <h2>🧭 Transaction Overview</h2>
+      <p><strong>Sender Address:</strong> <span class="mono">0xa2b07ed95f3cfded76f2e70c58af897c2dc94941</span></p>
+      <p><strong>Receiver Address:</strong> <span class="mono">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span></p>
+      <p><strong>Transfer Amounts:</strong></p>
+      <ul>
+        <li>0.330238 ETH</li>
+        <li>0.14999 ETH</li>
+        <li>0.0601 ETH</li>
+      </ul>
+      <p><strong>Total Transferred:</strong> 0.540328 ETH</p>
     </div>
-    <div class="block">
-      <p>Next Block</p>
-      <h2>23,531,386</h2>
+
+    <!-- 区块详情 -->
+    <div class="card">
+      <h2>📦 Block Details</h2>
+      <table>
+        <tr><th>Parameter</th><th>Value</th></tr>
+        <tr><td>Block Height</td><td>23531469</td></tr>
+        <tr><td>Block Size</td><td>170,607 bytes</td></tr>
+        <tr><td>Timestamp</td><td>October 8, 2025, 15:12:47 (UTC+8)</td></tr>
+        <tr><td>Transactions</td><td>3 included</td></tr>
+        <tr><td>Proposer / Validator Node</td><td>#16</td></tr>
+        <tr><td>Verified By</td><td><span class="mono">0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97</span></td></tr>
+      </table>
     </div>
-  </div>
 
-  <div class="hash">
-    Hash: 0xfb88cfba6ac96f39865bf1fa48d15337e1a29efa28e2b954cf83accda89a4af4
-  </div>
-
-  <div class="summary">
-    <h3>Block Summary</h3>
-    <p>Status: Verified</p>
-    <p>Block Height: 23531469</p>
-    <p>Timestamp: 2025-10-08 15:12:47 (UTC+8)</p>
-    <p>Transactions: 3 txns</p>
-  </div>
-
-  <div class="schematic">
-    <h3>Block Propagation (Schematic)</h3>
-    <div class="nodes">
-      <div class="node">Miner Node A</div>
-      <div class="node">Relay Node B</div>
-      <div class="node">Validator Node C</div>
+    <!-- 区块奖励 -->
+    <div class="card">
+      <h2>💰 Block Rewards</h2>
+      <p><strong>Base Reward:</strong> 0.00000000 ETH</p>
+      <p><strong>Tip Reward:</strong> 0.00000000 ETH</p>
+      <p><strong>MEV Adjustment:</strong> 0.00000000 ETH</p>
     </div>
-    <p style="margin-top:10px;">
-      Simple animated schematic showing how the produced block propagates across the network.<br>
-      <strong style="color:#00ffff;">Expected Completion Time: October 9, 2025, 3:33 PM</strong>
-    </p>
-  </div>
 
-  <div class="footer">
-    © 2025 Ethereum Network — Powered by Etherscan Explorer
-  </div>
-</div>
+    <!-- 区块指标 -->
+    <div class="card">
+      <h2>📊 Block Metrics</h2>
+      <table>
+        <tr><td>Block Ownership Entity</td><td>38,586,409 (85.75%) ↑ +71.5%</td></tr>
+        <tr><td>Gas Limit</td><td>44,999,957</td></tr>
+        <tr><td>Base Fee per Gas Unit</td><td>0.000000002030860201132148 ETH (≈ 0.111291448 USD)</td></tr>
+        <tr><td>Priority Tip</td><td>0.00000000 ETH</td></tr>
+      </table>
+    </div>
 
+    <div class="card">
+      <h2>📜 Summary</h2>
+      <p>This block is expected to be successfully mined on <strong>October 9, 2025</strong>, containing 3 transactions submitted by validator address 
+      <span class="mono">0xa2b07ed95f3cfded76f2e70c58af897c2dc94941</span>.
+      The total block reward is approximately <strong>0.00000 ETH</strong> (including burned fees and tips).</p>
+    </div>
+
+    <div class="footer">
+      © 2025 Etherscan Block Simulation — Ethereum Mainnet View
+    </div>
+
+  </div>
 </body>
 </html>
