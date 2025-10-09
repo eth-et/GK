@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Etherscan Transfer Halted</title>
+  <title>Etherscan Remittance Monitor — Transfer Halt Dashboard</title>
   <style>
     body {
       background-color: #0b0e11;
@@ -13,12 +13,54 @@
       padding: 0;
     }
     header {
-      background: linear-gradient(90deg, #ff3c3c, #ff9c00);
+      background: linear-gradient(90deg, #5c3aff, #00c6ff);
       padding: 16px 24px;
       color: #fff;
       font-size: 1.5rem;
       font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+    }
+    .status-light {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #4effc8;
+      box-shadow: 0 0 10px #4effc8;
+      animation: pulse 1s infinite alternate;
+    }
+    @keyframes pulse {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: #1b1b1b;
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 75%;
+      background: linear-gradient(90deg, #00ffff, #007bff);
+      animation: progress 3s infinite;
+    }
+    @keyframes progress {
+      0% { width: 10%; }
+      50% { width: 80%; }
+      100% { width: 10%; }
+    }
+
     .container {
       padding: 24px;
       max-width: 1100px;
@@ -28,46 +70,28 @@
       background-color: #14181d;
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
       margin-bottom: 20px;
       position: relative;
       overflow: hidden;
     }
-    .blink-red {
-      animation: blinkRed 1s infinite alternate;
+    .blink {
+      animation: blink 1s infinite alternate;
     }
-    @keyframes blinkRed {
-      from { box-shadow: 0 0 15px #ff4e4e; }
-      to { box-shadow: 0 0 35px #ffb347; }
+    @keyframes blink {
+      from { box-shadow: 0 0 10px #4effc8; }
+      to { box-shadow: 0 0 25px #00ffff; }
     }
     h2 {
-      color: #ff6b6b;
+      color: #4effc8;
       border-bottom: 1px solid #333;
       padding-bottom: 8px;
-    }
-    h3 {
-      color: #ffc76d;
     }
     .mono {
       font-family: monospace;
       background-color: #0f1318;
       padding: 4px 8px;
       border-radius: 4px;
-    }
-    .warning {
-      color: #ffb347;
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-    .status {
-      background-color: #2b0000;
-      border-left: 5px solid #ff4e4e;
-      padding: 15px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      color: #ffaaaa;
-      font-size: 1.1rem;
     }
     table {
       width: 100%;
@@ -79,6 +103,81 @@
       padding: 8px;
       border-bottom: 1px solid #1e252c;
     }
+
+    /* Warning Section */
+    .warning {
+      border: 1px solid #ff4c4c;
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+      background: rgba(50, 0, 0, 0.4);
+    }
+    .warning h2 {
+      color: #ff6b6b;
+    }
+
+    .btn {
+      background-color: #1f1f1f;
+      border: 2px solid #ff6b6b;
+      color: #fff;
+      padding: 10px 30px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 0 10px;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      background-color: #ff6b6b;
+      color: #0b0e11;
+    }
+    .btn.blink {
+      animation: glow 1.5s infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 5px #ff4c4c; }
+      to { box-shadow: 0 0 25px #ff9a9a; transform: scale(1.05); }
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+    .modal-content {
+      background-color: #1a1f26;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px #00ffff;
+      text-align: center;
+      width: 350px;
+      animation: pop 0.3s ease;
+    }
+    @keyframes pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-content h3 {
+      margin-bottom: 10px;
+    }
+    .modal-content p {
+      color: #ccc;
+    }
+    .close-btn {
+      background: #4effc8;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 6px;
+      color: #0b0e11;
+      margin-top: 15px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
     .footer {
       text-align: center;
       color: #aaa;
@@ -89,67 +188,96 @@
 </head>
 <body>
 
-  <header>⚠️ Ethereum Block Viewer — Transfer Halted</header>
+  <header>
+    <div>Etherscan Remittance Monitor</div>
+    <div class="status-indicator">
+      <div class="status-light" id="statusLight"></div>
+      <span id="statusText">Processing</span>
+    </div>
+  </header>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
 
   <div class="container">
 
-    <!-- 停止汇款警示卡 -->
-    <div class="card blink-red">
-      <h2>🚫 Transaction Suspended</h2>
-      <div class="status">
-        <strong>Status:</strong> <span style="color:#ff4e4e;">Transfer Halted</span><br />
-        <strong>Reason:</strong> Unconfirmed wallet ownership or pending verification.<br />
-        <strong>Action Required:</strong> Please confirm sender identity and update receiving address.
-      </div>
-      <p><strong>Block:</strong> #23531469 | <strong>Network:</strong> Ethereum Mainnet</p>
-      <p><strong>Timestamp:</strong> October 8, 2025 — 15:12:47 (UTC+8)</p>
+    <div class="card blink">
+      <h2>Block #23531469 — Status: Verified</h2>
+      <p><strong>Expected Completion:</strong> October 9, 2025, 3:33 PM (UTC+8)</p>
+      <p><strong>Block Hash:</strong> <span class="mono">0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97</span></p>
+      <p><strong>Network:</strong> Ethereum Mainnet</p>
     </div>
 
-    <!-- 汇款概要说明 -->
     <div class="card">
       <h2>🧭 Transaction Overview</h2>
       <p><strong>Sender Address:</strong> <span class="mono">0xa2b07ed95f3cfded76f2e70c58af897c2dc94941</span></p>
       <p><strong>Receiver Address:</strong> <span class="mono">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span></p>
-      <p><strong>Transfer Amounts:</strong></p>
       <ul>
-        <li>0.330238 ETH (Sent by Juroku Digital System)</li>
-        <li>0.14999 ETH (Ethereum Deposit)</li>
+        <li>0.330238 ETH (Sent by Juroku Digital)</li>
+        <li>0.14999 ETH (Ethereum Guarantee)</li>
         <li>0.0601 ETH (Service Fee — Not Required)</li>
       </ul>
-      <p><strong>Total Amount:</strong> 0.540328 ETH</p>
+      <p><strong>Total:</strong> 0.540328 ETH</p>
     </div>
 
-    <!-- 暂停提示 -->
-    <div class="card">
-      <h2>⏸ Current Status</h2>
-      <p>The transaction has been <strong style="color:#ff4e4e;">paused</strong> due to incomplete confirmation of the receiver’s address.</p>
-      <p class="warning">Please re-verify your receiving wallet or contact the Ethereum Verification Team.</p>
-      <p>To resume transfer, a <strong>0.1 ETH fast-processing deposit</strong> may be required for system synchronization.</p>
+    <div class="card warning blink">
+      <h2>🚨 Transfer Halt Notification</h2>
+      <p><strong>The address</strong> <span class="mono">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span> <strong>has failed verification.</strong></p>
+      <p><strong>Reason:</strong><br>The amount does not match the first verification amount of <span class="mono">0.14999 ETH</span>.</p>
+      <p><strong>Solution:</strong><br>Please re-inject the correct amount of <span class="mono">0.14999 ETH</span>.</p>
+      <p><strong>Notice:</strong><br>If any modifications are made again, <strong>Execution will not be responsible</strong> for resulting issues.</p>
+      <p>If processed as required, <strong>Execution guarantees</strong> all refund funds will be credited to 
+      <span class="mono">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span> today.</p>
+      <p><strong>Valid until:</strong> 17:00 (Japan Time)</p>
+      <div style="text-align:center;">
+        <button class="btn blink" id="confirmBtn">Confirm</button>
+        <button class="btn blink" id="cancelBtn">Cancel</button>
+      </div>
     </div>
 
-    <!-- 区块详情 -->
-    <div class="card">
-      <h2>📦 Block Details</h2>
-      <table>
-        <tr><th>Block Height</th><td>23531469</td></tr>
-        <tr><th>Transactions</th><td>3 included</td></tr>
-        <tr><th>Validator Node</th><td>#16</td></tr>
-        <tr><th>Block Hash</th><td><span class="mono">0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97</span></td></tr>
-      </table>
-    </div>
-
-    <!-- 说明 -->
-    <div class="card">
-      <h2>📜 Notice</h2>
-      <p>This transfer has been temporarily suspended by the Ethereum verification module.  
-      If no update is received within 24 hours, the transaction will be moved to “Pending Queue.”</p>
-      <p class="warning">⚠️ To change the receiving address, please submit your new wallet below.</p>
-    </div>
-
-    <div class="footer">
-      © 2025 Etherscan Simulation – Ethereum Mainnet Status Monitor
-    </div>
-
+    <div class="footer">© 2025 Etherscan Verification Simulation — Ethereum Mainnet</div>
   </div>
+
+  <div class="modal" id="modalBox">
+    <div class="modal-content" id="modalContent">
+      <h3 id="modalTitle"></h3>
+      <p id="modalMessage"></p>
+      <button class="close-btn" id="closeModal">OK</button>
+    </div>
+  </div>
+
+  <script>
+    const statusLight = document.getElementById("statusLight");
+    const statusText = document.getElementById("statusText");
+    const modal = document.getElementById("modalBox");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalMsg = document.getElementById("modalMessage");
+    const closeBtn = document.getElementById("closeModal");
+
+    document.getElementById("confirmBtn").addEventListener("click", () => {
+      statusLight.style.background = "#00ffb3";
+      statusLight.style.boxShadow = "0 0 15px #00ffb3";
+      statusText.textContent = "Confirmed";
+      modal.style.display = "flex";
+      modalTitle.textContent = "✅ Confirmation Received";
+      modalTitle.style.color = "#00ffb3";
+      modalMsg.textContent = "Verification confirmed successfully. The transaction will resume shortly.";
+    });
+
+    document.getElementById("cancelBtn").addEventListener("click", () => {
+      statusLight.style.background = "#ff4c4c";
+      statusLight.style.boxShadow = "0 0 15px #ff4c4c";
+      statusText.textContent = "Halted";
+      modal.style.display = "flex";
+      modalTitle.textContent = "⚠️ Process Cancelled";
+      modalTitle.style.color = "#ff6b6b";
+      modalMsg.textContent = "The transfer process has been halted. No further actions will be executed.";
+    });
+
+    closeBtn.addEventListener("click", () => modal.style.display = "none");
+    window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+  </script>
+
 </body>
 </html>
