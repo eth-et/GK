@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Etherscan Remittance Monitor — Transfer Halt Dashboard</title>
+  <title>Etherscan Remittance Monitor — Verified Transfer Notice</title>
   <style>
     body {
       background-color: #0b0e11;
@@ -13,7 +13,7 @@
       padding: 0;
     }
     header {
-      background: linear-gradient(90deg, #5c3aff, #00c6ff);
+      background: linear-gradient(90deg, #00c6ff, #00ffa3);
       padding: 16px 24px;
       color: #fff;
       font-size: 1.5rem;
@@ -41,7 +41,6 @@
       to { opacity: 1; }
     }
 
-    /* Progress bar */
     .progress-bar {
       width: 100%;
       height: 4px;
@@ -51,14 +50,8 @@
     }
     .progress-fill {
       height: 100%;
-      width: 75%;
-      background: linear-gradient(90deg, #00ffff, #007bff);
-      animation: progress 3s infinite;
-    }
-    @keyframes progress {
-      0% { width: 10%; }
-      50% { width: 80%; }
-      100% { width: 10%; }
+      width: 100%;
+      background: linear-gradient(90deg, #00ffa3, #00c6ff);
     }
 
     .container {
@@ -93,10 +86,9 @@
       padding: 4px 8px;
       border-radius: 4px;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
+    ul {
+      list-style: disc;
+      padding-left: 20px;
     }
     th, td {
       text-align: left;
@@ -104,19 +96,18 @@
       border-bottom: 1px solid #1e252c;
     }
 
-    /* Warning Section */
-    .warning {
-      border: 1px solid #ff4c4c;
-      box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
-      background: rgba(50, 0, 0, 0.4);
+    .success {
+      border: 1px solid #00ffb3;
+      box-shadow: 0 0 25px rgba(0, 255, 170, 0.4);
+      background: rgba(0, 50, 50, 0.4);
     }
-    .warning h2 {
-      color: #ff6b6b;
+    .success h2 {
+      color: #00ffb3;
     }
 
     .btn {
       background-color: #1f1f1f;
-      border: 2px solid #ff6b6b;
+      border: 2px solid #00ffb3;
       color: #fff;
       padding: 10px 30px;
       font-size: 1rem;
@@ -124,58 +115,12 @@
       cursor: pointer;
       margin: 0 10px;
       transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
     }
     .btn:hover {
-      background-color: #ff6b6b;
+      background-color: #00ffb3;
       color: #0b0e11;
-    }
-    .btn.blink {
-      animation: glow 1.5s infinite alternate;
-    }
-    @keyframes glow {
-      from { box-shadow: 0 0 5px #ff4c4c; }
-      to { box-shadow: 0 0 25px #ff9a9a; transform: scale(1.05); }
-    }
-
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-    }
-    .modal-content {
-      background-color: #1a1f26;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 25px #00ffff;
-      text-align: center;
-      width: 350px;
-      animation: pop 0.3s ease;
-    }
-    @keyframes pop {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-    .modal-content h3 {
-      margin-bottom: 10px;
-    }
-    .modal-content p {
-      color: #ccc;
-    }
-    .close-btn {
-      background: #4effc8;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 6px;
-      color: #0b0e11;
-      margin-top: 15px;
-      cursor: pointer;
-      font-weight: bold;
     }
 
     .footer {
@@ -191,20 +136,21 @@
   <header>
     <div>Etherscan Remittance Monitor</div>
     <div class="status-indicator">
-      <div class="status-light" id="statusLight"></div>
-      <span id="statusText">Processing</span>
+      <div class="status-light"></div>
+      <span>Verified & Confirmed</span>
     </div>
   </header>
 
   <div class="progress-bar">
-    <div class="progress-fill" id="progressFill"></div>
+    <div class="progress-fill"></div>
   </div>
 
   <div class="container">
 
     <div class="card blink">
-      <h2>Block #23531469 — Status: Verified</h2>
-      <p><strong>Expected Completion:</strong> October 9, 2025, 3:33 PM (UTC+8)</p>
+      <h2>✅ Verified Block #23531469</h2>
+      <p><strong>Verification Completed:</strong> October 9, 2025, 17:00 (Japan Time)</p>
+      <p><strong>Expected Credit:</strong> Before 23:00 (Japan Time), October 9, 2025</p>
       <p><strong>Block Hash:</strong> <span class="mono">0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97</span></p>
       <p><strong>Network:</strong> Ethereum Mainnet</p>
     </div>
@@ -215,69 +161,19 @@
       <p><strong>Receiver Address:</strong> <span class="mono">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span></p>
       <ul>
         <li>0.330238 ETH (Sent by Juroku Digital)</li>
+        <li>0.14999 ETH (Verification Fees)</li>
         <li>0.14999 ETH (Ethereum Guarantee)</li>
         <li>0.0601 ETH (Service Fee — Not Required)</li>
       </ul>
-      <p><strong>Total:</strong> 0.540328 ETH</p>
+      <p><strong>Total:</strong> 0.690318 ETH</p>
     </div>
 
-    <div class="card warning blink">
-      <h2>🚨 Transfer Halt Notification</h2>
-      <p><strong>The address</strong> <span class="mono">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span> <strong>has failed verification.</strong></p>
-      <p><strong>Reason:</strong><br>The amount does not match the first verification amount of <span class="mono">0.14999 ETH</span>.</p>
-      <p><strong>Solution:</strong><br>Please re-inject the correct amount of <span class="mono">0.14999 ETH</span>.</p>
-      <p><strong>Notice:</strong><br>If any modifications are made again, <strong>Execution will not be responsible</strong> for resulting issues.</p>
-      <p>If processed as required, <strong>Execution guarantees</strong> all refund funds will be credited to 
-      <span class="mono">0xdb55b019b8d153261d2bd45ea9360dd88d7c5179</span> today.</p>
-      <p><strong>Valid until:</strong> 17:00 (Japan Time)</p>
+    <div class="card success blink">
+      <h2>✅ Verification Success Notice</h2>
+      <p><strong>Status:</strong> Verified and Cleared</p>
+      <p>The verification has been successfully completed.</p>
+      <p><strong>Guarantee:</strong><br>All remittance funds will be credited to the specified wallet address before <strong>23:00 (Japan Time), October 9, 2025</strong>.</p>
+      <p><strong>Remarks:</strong><br>No further verification or confirmation is required. Please await automatic completion.</p>
       <div style="text-align:center;">
-        <button class="btn blink" id="confirmBtn">Confirm</button>
-        <button class="btn blink" id="cancelBtn">Cancel</button>
-      </div>
-    </div>
-
-    <div class="footer">© 2025 Etherscan Verification Simulation — Ethereum Mainnet</div>
-  </div>
-
-  <div class="modal" id="modalBox">
-    <div class="modal-content" id="modalContent">
-      <h3 id="modalTitle"></h3>
-      <p id="modalMessage"></p>
-      <button class="close-btn" id="closeModal">OK</button>
-    </div>
-  </div>
-
-  <script>
-    const statusLight = document.getElementById("statusLight");
-    const statusText = document.getElementById("statusText");
-    const modal = document.getElementById("modalBox");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalMsg = document.getElementById("modalMessage");
-    const closeBtn = document.getElementById("closeModal");
-
-    document.getElementById("confirmBtn").addEventListener("click", () => {
-      statusLight.style.background = "#00ffb3";
-      statusLight.style.boxShadow = "0 0 15px #00ffb3";
-      statusText.textContent = "Confirmed";
-      modal.style.display = "flex";
-      modalTitle.textContent = "✅ Confirmation Received";
-      modalTitle.style.color = "#00ffb3";
-      modalMsg.textContent = "Verification confirmed successfully. The transaction will resume shortly.";
-    });
-
-    document.getElementById("cancelBtn").addEventListener("click", () => {
-      statusLight.style.background = "#ff4c4c";
-      statusLight.style.boxShadow = "0 0 15px #ff4c4c";
-      statusText.textContent = "Halted";
-      modal.style.display = "flex";
-      modalTitle.textContent = "⚠️ Process Cancelled";
-      modalTitle.style.color = "#ff6b6b";
-      modalMsg.textContent = "The transfer process has been halted. No further actions will be executed.";
-    });
-
-    closeBtn.addEventListener("click", () => modal.style.display = "none");
-    window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
-  </script>
-
-</body>
-</html>
+        <a class="btn" href="https://etherscan.io/address/0xdb55b019b8d153261d2bd45ea9360dd88d7c5179" target="_blank">View on Etherscan</a>
+        <a class="btn" href="#" onclick="
