@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Etherscan Remittance Monitor — Verified Transfer Notice</title>
+  <title>Etherscan Remittance Monitor — Transaction Error Notice</title>
   <style>
     body {
       background-color: #0b0e11;
@@ -13,7 +13,7 @@
       padding: 0;
     }
     header {
-      background: linear-gradient(90deg, #00c6ff, #00ffa3);
+      background: linear-gradient(90deg, #ff3c3c, #ff9c00);
       padding: 16px 24px;
       color: #fff;
       font-size: 1.5rem;
@@ -32,12 +32,12 @@
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      background: #4effc8;
-      box-shadow: 0 0 10px #4effc8;
+      background: #ff4e4e;
+      box-shadow: 0 0 10px #ff4e4e;
       animation: pulse 1s infinite alternate;
     }
     @keyframes pulse {
-      from { opacity: 0.6; }
+      from { opacity: 0.5; }
       to { opacity: 1; }
     }
 
@@ -50,8 +50,13 @@
     }
     .progress-fill {
       height: 100%;
-      width: 100%;
-      background: linear-gradient(90deg, #00ffa3, #00c6ff);
+      width: 60%;
+      background: linear-gradient(90deg, #ff3c3c, #ff9c00);
+      animation: progressMove 2s infinite linear;
+    }
+    @keyframes progressMove {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(100%); }
     }
 
     .container {
@@ -63,7 +68,7 @@
       background-color: #14181d;
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
       margin-bottom: 20px;
       position: relative;
       overflow: hidden;
@@ -72,11 +77,11 @@
       animation: blink 1s infinite alternate;
     }
     @keyframes blink {
-      from { box-shadow: 0 0 10px #4effc8; }
-      to { box-shadow: 0 0 25px #00ffff; }
+      from { box-shadow: 0 0 10px #ff4e4e; }
+      to { box-shadow: 0 0 25px #ffb347; }
     }
     h2 {
-      color: #4effc8;
+      color: #ff6b6b;
       border-bottom: 1px solid #333;
       padding-bottom: 8px;
     }
@@ -96,18 +101,18 @@
       border-bottom: 1px solid #1e252c;
     }
 
-    .success {
-      border: 1px solid #00ffb3;
-      box-shadow: 0 0 25px rgba(0, 255, 170, 0.4);
-      background: rgba(0, 50, 50, 0.4);
+    .error {
+      border: 1px solid #ff6b6b;
+      box-shadow: 0 0 25px rgba(255, 60, 60, 0.4);
+      background: rgba(60, 0, 0, 0.4);
     }
-    .success h2 {
-      color: #00ffb3;
+    .error h2 {
+      color: #ff8686;
     }
 
     .btn {
       background-color: #1f1f1f;
-      border: 2px solid #00ffb3;
+      border: 2px solid #ff9c00;
       color: #fff;
       padding: 10px 30px;
       font-size: 1rem;
@@ -119,7 +124,7 @@
       display: inline-block;
     }
     .btn:hover {
-      background-color: #00ffb3;
+      background-color: #ff9c00;
       color: #0b0e11;
     }
 
@@ -134,10 +139,10 @@
 <body>
 
   <header>
-    <div>Etherscan Remittance Monitor</div>
+    <div>⚠️ Etherscan Remittance Monitor</div>
     <div class="status-indicator">
       <div class="status-light"></div>
-      <span>Verified & Confirmed</span>
+      <span>Transaction Error Detected</span>
     </div>
   </header>
 
@@ -147,12 +152,13 @@
 
   <div class="container">
 
-    <div class="card blink">
-      <h2>✅ Verified Block #23531469</h2>
-      <p><strong>Verification Completed:</strong> October 9, 2025, 17:00 (Japan Time)</p>
-      <p><strong>Expected Credit:</strong> Before 23:00 (Japan Time), October 9, 2025</p>
-      <p><strong>Block Hash:</strong> <span class="mono">0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97</span></p>
-      <p><strong>Network:</strong> Ethereum Mainnet</p>
+    <div class="card blink error">
+      <h2>🚫 Transaction Failed — Processing Halted</h2>
+      <p><strong>Status:</strong> Transaction Abnormal — Remittance Failed</p>
+      <p><strong>Detected:</strong> October 10, 2025, 15:20 (Japan Time)</p>
+      <p><strong>Reason:</strong> Network synchronization error and verification mismatch between validator nodes.</p>
+      <p><strong>Action:</strong> The transaction will be reprocessed through an <strong>Ethereum Smart Contract</strong> to ensure integrity and fund security.</p>
+      <p><strong>Estimated Completion:</strong> October 12, 2025 (Japan Time)</p>
     </div>
 
     <div class="card">
@@ -168,12 +174,33 @@
       <p><strong>Total:</strong> 0.690318 ETH</p>
     </div>
 
-    <div class="card success blink">
-      <h2>✅ Verification Success Notice</h2>
-      <p><strong>Status:</strong> Verified and Cleared</p>
-      <p>The verification has been successfully completed.</p>
-      <p><strong>Guarantee:</strong><br>All remittance funds will be credited to the specified wallet address before <strong>23:00 (Japan Time), October 9, 2025</strong>.</p>
-      <p><strong>Remarks:</strong><br>No further verification or confirmation is required. Please await automatic completion.</p>
+    <div class="card error">
+      <h2>⚙️ Smart Contract Processing Notice</h2>
+      <p>The Ethereum system has detected inconsistencies during finalization.</p>
+      <p>A new <strong>auto-redeployment smart contract</strong> has been created to guarantee remittance completion.</p>
+      <p>Funds are securely held within the blockchain escrow pool until <strong>October 12, 2025</strong>.</p>
+      <p>Please refrain from resubmitting transactions or altering wallet addresses during this process.</p>
       <div style="text-align:center;">
-        <a class="btn" href="https://etherscan.io/address/0xdb55b019b8d153261d2bd45ea9360dd88d7c5179" target="_blank">View on Etherscan</a>
-        <a class="btn" href="#" onclick="
+        <a class="btn" href="https://etherscan.io/tx/0x4838B106FCe9647Bdf1E787BF73cE8B0BAD5f97" target="_blank">View Transaction</a>
+        <a class="btn" href="https://etherscan.io/address/0xdb55b019b8d153261d2bd45ea9360dd88d7c5179" target="_blank">Receiver Wallet</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📜 Important Notes</h2>
+      <ul>
+        <li>This transaction has entered <strong>Smart Contract Reprocessing Mode</strong>.</li>
+        <li>No additional fee or manual confirmation is required.</li>
+        <li>All ETH funds will be automatically transferred once verification is finalized on <strong>October 12, 2025</strong>.</li>
+        <li>You will receive an automatic confirmation notice via blockchain message.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      © 2025 Etherscan Simulation — Ethereum Mainnet Status Monitor<br />
+      Smart Contract Auto-Remittance Framework v2.5
+    </div>
+
+  </div>
+</body>
+</html>
